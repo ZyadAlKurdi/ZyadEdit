@@ -13,7 +13,6 @@
     <style>
         body { font-family: 'Noto Sans Arabic', sans-serif; background-color: #020617; color: #f1f5f9; overflow-x: hidden; }
         
-        /* Container Setup */
         #canvas-container {
             width: 600px; height: 600px;
             position: relative; overflow: hidden;
@@ -25,12 +24,11 @@
             #canvas-container { width: 350px; height: 350px; }
         }
 
-        /* Essential for horizontal text flow */
+        /* Essential for horizontal text flow and alignment */
         .text-wrapper {
             position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            place-items: center;
             pointer-events: none;
             transform: translate(-50%, -50%);
             width: max-content !important;
@@ -39,20 +37,21 @@
         }
 
         #glassBox {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            place-items: center;
             text-align: center;
             width: max-content !important;
             min-width: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-sizing: border-box;
+            line-height: 1; /* Fixes baseline shift */
         }
 
         #mainText {
             margin: 0; padding: 0;
             white-space: nowrap !important;
-            display: inline-block;
+            display: block;
+            line-height: 1.2; /* Ensures text stays centered vertically */
         }
 
         input[type=range] { appearance: none; background: #1e293b; height: 4px; border-radius: 5px; }
@@ -105,8 +104,8 @@
 
             <!-- Text & Glass Box -->
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-4">
-                <label class="block text-[11px] font-bold text-blue-300 uppercase">٣. دەق و پشتێنەی شووشەیی</label>
-                <textarea id="textInput" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm h-16 outline-none focus:border-blue-500" placeholder="دەق لێرە بنووسە...">سڵاو زیاد گیان</textarea>
+                <label class="block text-[11px] font-bold text-blue-300 uppercase">٣. دەق و پشتێنە</label>
+                <textarea id="textInput" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm h-16 outline-none focus:border-blue-500" placeholder="دەق بنووسە...">دیزاینەکە سەیڤ بکە</textarea>
                 
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="setStyle('style-glass')" class="bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700">شووشەیی</button>
@@ -133,7 +132,7 @@
 
                 <div class="grid grid-cols-2 gap-2">
                     <div class="space-y-1">
-                        <label class="text-[10px]">١٥ فۆنتی نایاب</label>
+                        <label class="text-[10px]">فۆنتەکان</label>
                         <select id="fontSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-[10px] outline-none">
                             <option value="'Noto Sans Arabic'">Noto Sans</option>
                             <option value="'Readex Pro'">Readex Pro</option>
@@ -145,8 +144,8 @@
                             <option value="'Harmattan'">Harmattan</option>
                             <option value="'Lateef'">Lateef</option>
                             <option value="'Amiri'">Amiri</option>
-                            <option value="'Changa'">Changa</option>
                             <option value="'Lemonada'">Lemonada</option>
+                            <option value="'Changa'">Changa</option>
                             <option value="'Kufam'">Kufam</option>
                             <option value="'Scheherazade New'">Scheherazade</option>
                             <option value="'Markazi Text'">Markazi</option>
@@ -156,11 +155,6 @@
                         <label class="text-[10px]">قەبارەی دەق</label>
                         <input type="range" id="fontSize" min="10" max="300" value="30" class="w-full">
                     </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="color" id="textColor" value="#ffffff" class="w-full h-8 rounded-lg bg-transparent border border-slate-700 cursor-pointer">
-                    <input type="color" id="boxBgColor" value="#3b82f6" class="w-full h-8 rounded-lg bg-transparent border border-slate-700 cursor-pointer">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 bg-slate-950/50 p-2 rounded-xl">
@@ -268,24 +262,19 @@
         handleFile(els.logoInput, els.previewLogo);
 
         function updateUI() {
-            // BG & Brightness
             els.previewBg.style.filter = `brightness(${els.brightness.value}%)`;
             els.gradOverlay.style.background = `linear-gradient(to top, ${els.gradColor.value} 0%, transparent ${els.gradHeight.value}%)`;
 
-            // Frame
             els.frameLine.style.display = els.frameCheck.checked ? 'block' : 'none';
             els.frameLine.style.width = `${els.frameWidth.value}%`;
             els.frameLine.style.height = `${els.frameHeight.value}%`;
             els.frameLine.style.borderWidth = `${els.frameThickness.value}px`;
             els.frameLine.style.borderColor = els.frameColor.value;
 
-            // Text Rendering
             els.mainText.innerText = els.textInput.value;
             els.mainText.style.fontFamily = els.font.value;
             els.mainText.style.fontSize = `${els.fontSize.value}px`;
-            els.mainText.style.color = els.textColor.value;
             
-            // Box Styling
             els.glassBox.style.padding = `${els.padY.value}px ${els.padX.value}px`;
             const opacity = els.glassOpacity.value / 100;
             const blur = els.glassBlur.value;
@@ -308,11 +297,9 @@
                 els.glassBox.style.border = "none";
             }
 
-            // Positions
             els.textWrapper.style.left = `${els.textX.value}%`;
             els.textWrapper.style.top = `${els.textY.value}%`;
 
-            // Logo
             els.previewLogo.style.width = `${els.logoSize.value}px`;
             els.previewLogo.style.opacity = els.logoOpacity.value / 100;
             els.logoWrapper.style.left = `${els.logoX.value}%`;
@@ -324,26 +311,24 @@
         async function downloadDesign(btn) {
             const container = document.getElementById('canvas-container');
             const originalText = btn.innerText;
-            btn.innerText = "خەریکە ئامادە دەبێت...";
+            btn.innerText = "پاشەکەوت دەبێت...";
             
-            // Critical fix for blur in html2canvas
             html2canvas(container, {
                 scale: 4,
                 useCORS: true,
                 backgroundColor: null,
                 logging: false,
                 onclone: (clonedDoc) => {
+                    // Force the text alignment logic in the cloned version
                     const clonedBox = clonedDoc.getElementById('glassBox');
-                    // Force display flex for alignment during capture
-                    clonedBox.style.display = 'flex';
-                    clonedBox.style.alignItems = 'center';
-                    clonedBox.style.justifyContent = 'center';
-                    // Re-apply backdrop filter in the clone to ensure capture
-                    clonedBox.style.backdropFilter = `blur(${els.glassBlur.value}px)`;
+                    clonedBox.style.display = 'grid';
+                    clonedBox.style.placeItems = 'center';
+                    const clonedText = clonedDoc.getElementById('mainText');
+                    clonedText.style.lineHeight = '1.2';
                 }
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `Zyad-Pro-Design-${Date.now()}.png`;
+                link.download = `Zyad-HD-Design-${Date.now()}.png`;
                 link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
                 btn.innerText = originalText;
