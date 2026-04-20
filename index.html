@@ -4,89 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>چاککەری وێنەی زیاد الکردی - وەشەنی جێگیر</title>
+    <title>چاککەری وێنەی زیاد الکردی - Pro Canvas Engine</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Premium Kurdish Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&family=Readex+Pro:wght@400;700&family=Vazirmatn:wght@400;700&family=Lalezar&family=Almarai:wght@400;700&family=Cairo:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=El+Messiri:wght@400;700&family=Harmattan:wght@400;700&family=Lateef&family=Amiri:wght@400;700&family=Lemonada:wght@400;700&family=Changa:wght@400;700&family=Kufam:wght@400;700&family=Reem+Kufi:wght@400;700&family=Scheherazade+New&family=Markazi+Text&family=Zilla+Slab:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         body { font-family: 'Noto Sans Arabic', sans-serif; background-color: #020617; color: #f1f5f9; overflow-x: hidden; }
+        .sidebar::-webkit-scrollbar { width: 5px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
         
-        #canvas-container {
-            width: 600px; height: 600px;
-            position: relative; overflow: hidden;
-            background: #0f172a; flex-shrink: 0;
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 1);
-        }
-
-        @media (max-width: 640px) {
-            #canvas-container { width: 350px; height: 350px; }
-        }
-
-        /* 🔒 Essential for No-Shift Alignment */
-        .text-wrapper {
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            width: max-content !important;
-            height: max-content !important;
-            z-index: 50;
-            white-space: nowrap !important;
-        }
-
-        #glassBox {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: max-content !important;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-sizing: border-box;
-            line-height: 0 !important; /* Forces layout to disregard standard line height */
-        }
-
-        #mainText {
-            margin: 0 !important;
-            padding: 0 !important;
-            white-space: nowrap !important;
-            display: block;
-            line-height: 1 !important; /* Prevents vertical stretching */
-            /* Force the baseline correction */
-            vertical-align: baseline;
+        #canvas-wrapper {
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 1);
+            background-color: #0f172a;
+            line-height: 0;
         }
 
         input[type=range] { appearance: none; background: #1e293b; height: 4px; border-radius: 5px; }
         input[type=range]::-webkit-slider-thumb { appearance: none; height: 16px; width: 16px; background: #3b82f6; border-radius: 50%; cursor: pointer; border: 2px solid #020617; }
         
         .active-btn { border-color: #3b82f6 !important; color: #3b82f6 !important; background: #1e293b !important; }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     </style>
 </head>
 <body class="p-2 md:p-6 select-none">
 
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
         
-        <!-- UI Side -->
-        <div class="w-full lg:w-[460px] space-y-4 max-h-[95vh] overflow-y-auto pr-3 bg-slate-900/95 p-6 rounded-[2.5rem] border border-slate-800 shadow-2xl">
+        <!-- Sidebar Controls -->
+        <div class="w-full lg:w-[460px] space-y-4 max-h-[95vh] overflow-y-auto pr-3 bg-slate-900/95 p-6 rounded-[2.5rem] border border-slate-800 shadow-2xl sidebar">
             <div class="text-center mb-6">
-                <h1 class="text-2xl font-black text-blue-400 leading-tight">چاککەری وێنەی زیاد الکردی</h1>
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Automatic Precision Edition</p>
+                <h1 class="text-2xl font-black text-blue-400">چاککەری وێنەی زیاد الکردی</h1>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Professional Canvas Engine v12</p>
             </div>
 
-            <!-- 1. Media -->
+            <!-- 1. Background -->
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3">
-                <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest">١. وێنەی سەرەکی و تدرج</label>
-                <input type="file" id="bgInput" class="w-full text-[10px] text-slate-400 file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-full cursor-pointer">
+                <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest">١. وێنەی سەرەکی</label>
+                <input type="file" id="bgInput" accept="image/*" class="w-full text-[10px] text-slate-400 file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-full cursor-pointer">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="text-[10px]">ڕوونی وێنە</label>
-                        <input type="range" id="brightnessRange" min="0" max="200" value="100" class="w-full">
+                        <input type="range" id="brightness" min="0" max="200" value="100" class="w-full">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px]">تاریکایی خوارەوە</label>
@@ -103,289 +62,253 @@
                     <input type="range" id="frameWidth" min="10" max="100" value="90">
                     <input type="range" id="frameHeight" min="10" max="100" value="90">
                 </div>
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-4">
                     <input type="range" id="frameThickness" min="1" max="15" value="2">
-                    <input type="color" id="frameColor" value="#ffffff" class="w-full h-6 bg-transparent border-0">
+                    <input type="color" id="frameColor" value="#ffffff" class="w-full h-8 rounded bg-transparent border border-slate-700">
                 </div>
             </div>
 
-            <!-- 3. Text & Style -->
+            <!-- 3. Text & Box -->
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-4">
                 <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest text-center border-b border-slate-700 pb-2">٣. ڕێکخستنی دەق و پشتێنە</label>
-                <textarea id="textInput" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm h-16 outline-none focus:border-blue-500" placeholder="دەق لێرە بنووسە...">ناوەندی دەق قوفڵ کراوە</textarea>
+                <textarea id="textInput" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm h-16 outline-none focus:border-blue-500" placeholder="دەق بنووسە...">ناوەندی دەق سەد لە سەد چاککرا</textarea>
                 
                 <div class="grid grid-cols-2 gap-2">
-                    <button id="btn-glass" onclick="setStyle('style-glass')" class="bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700 active-btn">شووشەیی</button>
-                    <button id="btn-dark" onclick="setStyle('style-dark')" class="bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700">تاریک</button>
-                    <button id="btn-solid" onclick="setStyle('style-solid')" class="bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700">ڕەنگی تەواو</button>
-                    <button id="btn-none" onclick="setStyle('style-none')" class="bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700">بێ پشتێنە</button>
+                    <button id="btn-glass" onclick="setStyle('glass')" class="btn-style active-btn bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700">شووشەیی</button>
+                    <button id="btn-dark" onclick="setStyle('dark')" class="btn-style bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700">تاریک</button>
+                    <button id="btn-solid" onclick="setStyle('solid')" class="btn-style bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700">ڕەنگی تەواو</button>
+                    <button id="btn-none" onclick="setStyle('none')" class="btn-style bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700">بێ پشتێنە</button>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 bg-slate-950/40 p-3 rounded-2xl border border-slate-800">
                     <div class="space-y-1">
-                        <label class="text-[10px]">تۆخی شووشە</label>
-                        <input type="range" id="glassOpacity" min="0" max="100" value="20" class="w-full">
+                        <label class="text-[10px]">تۆخی (Opacity)</label>
+                        <input type="range" id="boxOpacity" min="0" max="100" value="30">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[10px]">لێڵی (Blur)</label>
-                        <input type="range" id="glassBlur" min="0" max="50" value="15" class="w-full">
+                        <label class="text-[10px]">چەماوەیی (Radius)</label>
+                        <input type="range" id="borderRadius" min="0" max="100" value="20">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2">
-                    <div><label class="text-[9px]">پانی پشتێنە</label><input type="range" id="padX" min="0" max="200" value="40" class="w-full"></div>
-                    <div><label class="text-[9px]">بەرزی پشتێنە</label><input type="range" id="padY" min="0" max="200" value="20" class="w-full"></div>
+                    <div><label class="text-[9px]">پانی پشتێنە</label><input type="range" id="padX" min="10" max="200" value="60"></div>
+                    <div><label class="text-[9px]">بەرزی پشتێنە</label><input type="range" id="padY" min="10" max="200" value="40"></div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="text-[10px]">١٨ فۆنتی نایاب</label>
+                        <label class="text-[10px]">١٨ فۆنتی ئەکۆکورد</label>
                         <select id="fontSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-[10px] outline-none">
-                            <option value="'Noto Sans Arabic'">Noto Sans</option>
-                            <option value="'Readex Pro'">Readex Pro</option>
-                            <option value="'Lalezar'">Lalezar</option>
-                            <option value="'Vazirmatn'">Vazirmatn</option>
-                            <option value="'Almarai'">Almarai</option>
-                            <option value="'Cairo'">Cairo</option>
-                            <option value="'Baloo Bhaijaan 2'">Baloo</option>
-                            <option value="'Harmattan'">Harmattan</option>
-                            <option value="'Lateef'">Lateef</option>
-                            <option value="'Amiri'">Amiri</option>
-                            <option value="'Lemonada'">Lemonada</option>
-                            <option value="'Changa'">Changa</option>
-                            <option value="'Kufam'">Kufam</option>
-                            <option value="'Reem Kufi'">Reem Kufi</option>
-                            <option value="'Scheherazade New'">Scheherazade</option>
-                            <option value="'Markazi Text'">Markazi</option>
-                            <option value="'Zilla Slab'">Zilla Slab</option>
-                            <option value="'El Messiri'">El Messiri</option>
+                            <option value="Noto Sans Arabic">Noto Sans</option>
+                            <option value="Readex Pro">Readex Pro</option>
+                            <option value="Lalezar">Lalezar (قەڵەو)</option>
+                            <option value="Vazirmatn">Vazirmatn</option>
+                            <option value="Almarai">Almarai</option>
+                            <option value="Cairo">Cairo</option>
+                            <option value="Baloo Bhaijaan 2">Baloo</option>
+                            <option value="Amiri">Amiri</option>
+                            <option value="Harmattan">Harmattan</option>
+                            <option value="Lemonada">Lemonada</option>
+                            <option value="Changa">Changa</option>
+                            <option value="Kufam">Kufam</option>
                         </select>
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[10px]">قەبارەی دەق: <span id="sizeVal">30</span></label>
-                        <input type="range" id="fontSize" min="10" max="300" value="30" class="w-full">
+                        <label class="text-[10px]">قەبارەی دەق</label>
+                        <input type="range" id="fontSize" min="10" max="150" value="40">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <input type="color" id="textColor" value="#ffffff" class="w-full h-8 rounded bg-transparent border border-slate-700 cursor-pointer">
-                    <input type="color" id="boxBgColor" value="#3b82f6" class="w-full h-8 rounded bg-transparent border border-slate-700 cursor-pointer">
+                    <input type="color" id="textColor" value="#ffffff" class="w-full h-8 rounded bg-transparent border border-slate-700">
+                    <input type="color" id="boxBgColor" value="#3b82f6" class="w-full h-8 rounded bg-transparent border border-slate-700">
                 </div>
 
                 <div class="bg-slate-950/50 p-3 rounded-2xl space-y-3">
-                    <div class="flex items-center gap-2"><span class="text-[10px] w-4 text-slate-500 font-bold">X:</span><input type="range" id="textX" min="-50" max="150" value="50" class="w-full"></div>
-                    <div class="flex items-center gap-2"><span class="text-[10px] w-4 text-slate-500 font-bold">Y:</span><input type="range" id="textY" min="-50" max="150" value="50" class="w-full"></div>
-                    <div class="space-y-1 text-center border-t border-slate-800 pt-2"><label class="text-[9px]">چەماوەیی (Radius)</label><input type="range" id="borderRadius" min="0" max="200" value="30" class="w-full"></div>
+                    <div class="flex items-center gap-2"><span class="text-[10px] w-4 text-slate-500 font-bold">X:</span><input type="range" id="textX" min="0" max="100" value="50" class="w-full"></div>
+                    <div class="flex items-center gap-2"><span class="text-[10px] w-4 text-slate-500 font-bold">Y:</span><input type="range" id="textY" min="0" max="100" value="50" class="w-full"></div>
                 </div>
             </div>
 
             <!-- 4. Logo -->
-            <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3">
+            <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3 shadow-md">
                 <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest">٤. لۆگۆ</label>
-                <input type="file" id="logoInput" class="w-full text-[10px] text-slate-400 file:bg-slate-700 file:text-white file:border-0 file:px-4 file:py-1.5 file:rounded-full cursor-pointer shadow-md">
+                <input type="file" id="logoInput" class="w-full text-[10px] text-slate-400 file:bg-slate-700 file:text-white file:border-0 file:px-4 file:py-1.5 file:rounded-full">
                 <div class="grid grid-cols-2 gap-4 pt-2">
-                    <input type="range" id="logoSize" min="20" max="500" value="100" class="w-full">
-                    <input type="range" id="logoOpacity" min="0" max="100" value="100" class="w-full">
+                    <input type="range" id="logoSize" min="20" max="400" value="120">
+                    <input type="range" id="logoOpacity" min="0" max="100" value="100">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="range" id="logoX" min="0" max="100" value="50" class="w-full">
-                    <input type="range" id="logoY" min="0" max="100" value="85" class="w-full">
+                    <input type="range" id="logoX" min="0" max="100" value="50">
+                    <input type="range" id="logoY" min="0" max="100" value="85">
                 </div>
             </div>
 
-            <button onclick="downloadDesign(this)" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-5 rounded-[2rem] shadow-xl shadow-blue-900/40 active:scale-95 transition-all mb-10">
-                داگرتنی وێنە (بەبێ لادان)
+            <button onclick="downloadImage()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-[2rem] shadow-xl shadow-blue-900/40 active:scale-95 transition-all mb-10">
+                داگرتنی وێنە (Ultra HD Quality)
             </button>
         </div>
 
-        <!-- Preview Area -->
+        <!-- Preview Area (Real Canvas) -->
         <div class="flex-1 flex items-start lg:items-center justify-center p-4">
-            <div id="canvas-container">
-                <img id="previewBg" src="" class="absolute inset-0 w-full h-full object-cover hidden">
-                <div id="gradientOverlay" class="absolute inset-0 pointer-events-none transition-all duration-300"></div>
-                <div id="frameLine" class="absolute pointer-events-none border-2 border-white/50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-
-                <div id="textWrapper" class="text-wrapper" style="top: 50%; left: 50%;">
-                    <div id="glassBox">
-                        <p id="mainText"></p>
-                    </div>
-                </div>
-
-                <div id="logoWrapper" class="absolute flex justify-center items-center pointer-events-none" style="top: 85%; left: 50%; transform: translate(-50%, -50%);">
-                    <img id="previewLogo" src="" class="hidden object-contain drop-shadow-2xl">
-                </div>
+            <div id="canvas-wrapper">
+                <canvas id="mainCanvas" width="1200" height="1200" style="width: 600px; height: 600px;"></canvas>
             </div>
         </div>
 
     </div>
 
     <script>
-        let currentStyleClass = 'style-glass';
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        let bgImg = null;
+        let logoImg = null;
+        let currentStyle = 'glass';
 
-        const els = {
-            bgInput: document.getElementById('bgInput'),
-            previewBg: document.getElementById('previewBg'),
-            brightness: document.getElementById('brightnessRange'),
-            gradOverlay: document.getElementById('gradientOverlay'),
-            gradColor: document.getElementById('gradColor'),
-            gradHeight: document.getElementById('gradHeight'),
-            frameLine: document.getElementById('frameLine'),
-            frameCheck: document.getElementById('frameCheck'),
-            frameWidth: document.getElementById('frameWidth'),
-            frameHeight: document.getElementById('frameHeight'),
-            frameThickness: document.getElementById('frameThickness'),
-            frameColor: document.getElementById('frameColor'),
-            textInput: document.getElementById('textInput'),
-            mainText: document.getElementById('mainText'),
-            textWrapper: document.getElementById('textWrapper'),
-            font: document.getElementById('fontSelect'),
-            fontSize: document.getElementById('fontSize'),
-            sizeVal: document.getElementById('sizeVal'),
-            glassOpacity: document.getElementById('glassOpacity'),
-            glassBlur: document.getElementById('glassBlur'),
-            padX: document.getElementById('padX'),
-            padY: document.getElementById('padY'),
-            glassBox: document.getElementById('glassBox'),
-            borderRadius: document.getElementById('borderRadius'),
-            textX: document.getElementById('textX'),
-            textY: document.getElementById('textY'),
-            boxBgColor: document.getElementById('boxBgColor'),
-            textColor: document.getElementById('textColor'),
-            logoInput: document.getElementById('logoInput'),
-            previewLogo: document.getElementById('previewLogo'),
-            logoWrapper: document.getElementById('logoWrapper'),
-            logoSize: document.getElementById('logoSize'),
-            logoOpacity: document.getElementById('logoOpacity'),
-            logoX: document.getElementById('logoX'),
-            logoY: document.getElementById('logoY')
-        };
+        const inputs = [
+            'bgInput', 'brightness', 'gradHeight', 'gradColor',
+            'frameCheck', 'frameWidth', 'frameHeight', 'frameThickness', 'frameColor',
+            'textInput', 'fontSelect', 'fontSize', 'textColor', 'boxBgColor',
+            'boxOpacity', 'borderRadius', 'padX', 'padY', 'textX', 'textY',
+            'logoInput', 'logoSize', 'logoOpacity', 'logoX', 'logoY'
+        ];
+
+        const state = {};
+        inputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                state[id] = el.type === 'checkbox' ? el.checked : el.value;
+                el.oninput = () => {
+                    state[id] = el.type === 'checkbox' ? el.checked : el.value;
+                    draw();
+                };
+            }
+        });
 
         function setStyle(style) {
-            currentStyleClass = style;
-            ['btn-glass', 'btn-dark', 'btn-solid', 'btn-none'].forEach(id => {
-                document.getElementById(id).classList.remove('active-btn');
-            });
-            document.getElementById('btn-' + style.split('-')[1]).classList.add('active-btn');
-            updateUI();
+            currentStyle = style;
+            document.querySelectorAll('.btn-style').forEach(b => b.classList.remove('active-btn'));
+            document.getElementById('btn-' + style).classList.add('active-btn');
+            draw();
         }
 
-        const handleFile = (input, img) => {
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (ev) => { img.src = ev.target.result; img.classList.remove('hidden'); updateUI(); };
-                    reader.readAsDataURL(file);
-                }
+        document.getElementById('bgInput').onchange = (e) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                bgImg = new Image();
+                bgImg.onload = draw;
+                bgImg.src = ev.target.result;
             };
+            reader.readAsDataURL(e.target.files[0]);
         };
-        handleFile(els.bgInput, els.previewBg);
-        handleFile(els.logoInput, els.previewLogo);
 
-        function updateUI() {
-            if (els.sizeVal) els.sizeVal.innerText = els.fontSize.value;
+        document.getElementById('logoInput').onchange = (e) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                logoImg = new Image();
+                logoImg.onload = draw;
+                logoImg.src = ev.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        };
 
-            els.previewBg.style.filter = `brightness(${els.brightness.value}%)`;
-            els.gradOverlay.style.background = `linear-gradient(to top, ${els.gradColor.value} 0%, transparent ${els.gradHeight.value}%)`;
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            els.frameLine.style.display = els.frameCheck.checked ? 'block' : 'none';
-            els.frameLine.style.width = els.frameWidth.value + '%';
-            els.frameLine.style.height = els.frameHeight.value + '%';
-            els.frameLine.style.borderWidth = els.frameThickness.value + 'px';
-            els.frameLine.style.borderColor = els.frameColor.value;
-
-            els.mainText.innerText = els.textInput.value || " ";
-            els.mainText.style.fontFamily = els.font.value;
-            els.mainText.style.fontSize = els.fontSize.value + 'px';
-            els.mainText.style.color = els.textColor.value;
-            
-            els.glassBox.style.padding = `${els.padY.value}px ${els.padX.value}px`;
-            els.glassBox.style.borderRadius = els.borderRadius.value + 'px';
-            
-            const alpha = els.glassOpacity.value / 100;
-            const blur = els.glassBlur.value;
-
-            if (currentStyleClass === 'style-glass') {
-                els.glassBox.style.background = `rgba(255, 255, 255, ${alpha})`;
-                els.glassBox.style.border = `1px solid rgba(255, 255, 255, 0.4)`;
-                els.glassBox.style.backdropFilter = `blur(${blur}px)`;
-            } else if (currentStyleClass === 'style-dark') {
-                els.glassBox.style.background = `rgba(0, 0, 0, ${alpha})`;
-                els.glassBox.style.border = `1px solid rgba(255, 255, 255, 0.1)`;
-                els.glassBox.style.backdropFilter = `blur(${blur}px)`;
-            } else if (currentStyleClass === 'style-solid') {
-                els.glassBox.style.background = els.boxBgColor.value;
-                els.glassBox.style.border = "none";
-                els.glassBox.style.backdropFilter = "none";
-            } else {
-                els.glassBox.style.background = "transparent";
-                els.glassBox.style.border = "none";
-                els.glassBox.style.backdropFilter = "none";
+            // 1. Draw Background
+            if (bgImg) {
+                ctx.filter = `brightness(${state.brightness}%)`;
+                const scale = Math.max(canvas.width / bgImg.width, canvas.height / bgImg.height);
+                const x = (canvas.width - bgImg.width * scale) / 2;
+                const y = (canvas.height - bgImg.height * scale) / 2;
+                ctx.drawImage(bgImg, x, y, bgImg.width * scale, bgImg.height * scale);
+                ctx.filter = 'none';
             }
 
-            els.textWrapper.style.left = els.textX.value + '%';
-            els.textWrapper.style.top = els.textY.value + '%';
-            els.previewLogo.style.width = els.logoSize.value + 'px';
-            els.previewLogo.style.opacity = els.logoOpacity.value / 100;
-            els.logoWrapper.style.left = els.logoX.value + '%';
-            els.logoWrapper.style.top = els.logoY.value + '%';
-        }
+            // 2. Draw Gradient
+            const grad = ctx.createLinearGradient(0, canvas.height, 0, canvas.height * (1 - state.gradHeight / 100));
+            grad.addColorStop(0, state.gradColor);
+            grad.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        Object.values(els).forEach(el => { if(el && el.tagName !== 'IMG') el.oninput = updateUI; });
+            // 3. Draw Frame
+            if (state.frameCheck) {
+                const fw = canvas.width * (state.frameWidth / 100);
+                const fh = canvas.height * (state.frameHeight / 100);
+                ctx.strokeStyle = state.frameColor;
+                ctx.lineWidth = state.frameThickness * 2;
+                ctx.strokeRect((canvas.width - fw) / 2, (canvas.height - fh) / 2, fw, fh);
+            }
 
-        async function downloadDesign(btn) {
-            const container = document.getElementById('canvas-container');
-            const originalText = btn.innerText;
-            btn.innerText = "خەریکە پاشەکەوت دەبێت...";
-            btn.disabled = true;
+            // 4. Draw Logo
+            if (logoImg) {
+                ctx.globalAlpha = state.logoOpacity / 100;
+                const lSize = state.logoSize * 2;
+                const lx = (canvas.width * state.logoX / 100) - lSize / 2;
+                const ly = (canvas.height * state.logoY / 100) - (lSize * (logoImg.height/logoImg.width)) / 2;
+                ctx.drawImage(logoImg, lx, ly, lSize, lSize * (logoImg.height/logoImg.width));
+                ctx.globalAlpha = 1.0;
+            }
 
-            // 📸 THE ULTIMATE GEOMETRIC ALIGNMENT ENGINE
-            html2canvas(container, {
-                scale: 4, 
-                useCORS: true,
-                backgroundColor: null,
-                logging: false,
-                onclone: (clonedDoc) => {
-                    const clonedBox = clonedDoc.getElementById('glassBox');
-                    const clonedText = clonedDoc.getElementById('mainText');
-                    
-                    // 1. Force the layout to be EXACT pixels based on actual screen measurement
-                    const realBoxHeight = els.glassBox.offsetHeight;
-                    const realTextHeight = els.mainText.offsetHeight;
-                    
-                    // 2. Kill all dynamic centering that causes drift in canvas
-                    clonedBox.style.display = 'block';
-                    clonedBox.style.height = realBoxHeight + 'px';
-                    clonedBox.style.position = 'relative';
-                    
-                    // 3. Absolute Mathematical Centering
-                    // We manually place the text at the center of the box using pixel math
-                    // instead of browser "Center" logic.
-                    const topPos = (realBoxHeight - realTextHeight) / 2;
-                    clonedText.style.position = 'absolute';
-                    clonedText.style.top = topPos + 'px';
-                    clonedText.style.left = '0';
-                    clonedText.style.right = '0';
-                    clonedText.style.margin = '0 auto';
-                    
-                    // 4. THE MAGIC KURDISH FIX: 
-                    // Kurdish fonts have a 'descender' bias. We nudge it up by 15% of the font height 
-                    // to counteract the "html2canvas drop" bug.
-                    const fontSize = parseInt(els.fontSize.value);
-                    const nudge = -(fontSize * 0.15); 
-                    clonedText.style.marginTop = nudge + "px";
+            // 5. Draw Text Box & Text
+            const txt = state.textInput || "";
+            const fSize = state.fontSize * 2;
+            ctx.font = `${fSize}px "${state.fontSelect}"`;
+            const textMetrics = ctx.measureText(txt);
+            const textWidth = textMetrics.width;
+            const textHeight = fSize * 0.8; // Approximation for better centering
+
+            const boxW = textWidth + (state.padX * 2);
+            const boxH = fSize + (state.padY * 2);
+            const bx = (canvas.width * state.textX / 100) - boxW / 2;
+            const by = (canvas.height * state.textY / 100) - boxH / 2;
+
+            if (currentStyle !== 'none') {
+                ctx.save();
+                ctx.beginPath();
+                const r = state.borderRadius * 2;
+                ctx.roundRect(bx, by, boxW, boxH, r);
+                
+                if (currentStyle === 'glass') {
+                    ctx.fillStyle = `rgba(255, 255, 255, ${state.boxOpacity / 100})`;
+                    ctx.shadowBlur = 40;
+                    ctx.shadowColor = "rgba(0,0,0,0.5)";
+                } else if (currentStyle === 'dark') {
+                    ctx.fillStyle = `rgba(0, 0, 0, ${state.boxOpacity / 100})`;
+                } else if (currentStyle === 'solid') {
+                    ctx.fillStyle = state.boxBgColor;
                 }
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Zyad-AlKurdi-Pro-${Date.now()}.png`;
-                link.href = canvas.toDataURL('image/png', 1.0);
-                link.click();
-                btn.innerText = originalText;
-                btn.disabled = false;
-            });
+                ctx.fill();
+                if (currentStyle !== 'solid') {
+                    ctx.strokeStyle = "rgba(255,255,255,0.2)";
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+
+            // Draw Text - The ULTIMATE centering logic
+            ctx.fillStyle = state.textColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            // Kurdish Baseline Compensation: Move up slightly to account for descenders
+            const kCorrection = fSize * 0.05; 
+            ctx.fillText(txt, canvas.width * state.textX / 100, (canvas.height * state.textY / 100) - kCorrection);
         }
-        
-        window.onload = updateUI;
+
+        async function downloadImage() {
+            const link = document.createElement('a');
+            link.download = `Zyad-Pro-Editor-${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        }
+
+        // Wait for fonts to load then draw
+        document.fonts.ready.then(() => {
+            draw();
+        });
     </script>
 </body>
 </html>
