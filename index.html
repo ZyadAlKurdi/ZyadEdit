@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>چاککەری وێنەی زیاد الکردی - Pro Edition</title>
+    <title>چاککەری وێنەی زیاد الکردی - Responsive Pro</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Premium Kurdish & Arabic Fonts -->
@@ -19,8 +19,17 @@
             box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 1);
             background-color: #0f172a;
             line-height: 0;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
+            width: 100%;
+            max-width: 600px; /* Max visual size for desktop */
+            margin: 0 auto;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+            display: block;
         }
 
         input[type=range] { appearance: none; background: #1e293b; height: 4px; border-radius: 5px; }
@@ -35,7 +44,7 @@
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
         
         <!-- Sidebar Controls -->
-        <div class="w-full lg:w-[460px] space-y-4 max-h-[95vh] overflow-y-auto pr-3 bg-slate-900/95 p-6 rounded-[2.5rem] border border-slate-800 shadow-2xl sidebar">
+        <div class="w-full lg:w-[460px] space-y-4 max-h-[95vh] lg:overflow-y-auto pr-0 lg:pr-3 bg-slate-900/95 p-5 md:p-6 rounded-[2rem] border border-slate-800 shadow-2xl sidebar">
             <div class="text-center mb-6">
                 <h1 class="text-2xl font-black text-blue-400">چاککەری وێنەی زیاد الکردی</h1>
                 <p class="text-[13px] text-slate-300 mt-2 arabic-text font-bold">لَا إِلَهَ إِلا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ</p>
@@ -46,17 +55,17 @@
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3">
                 <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest">١. وێنەی سەرەکی</label>
                 <input type="file" id="bgInput" accept="image/*" class="w-full text-[10px] text-slate-400 file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-full cursor-pointer">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-4 pt-2">
                     <div class="space-y-1">
                         <label class="text-[10px]">ڕوونی وێنە</label>
                         <input type="range" id="brightness" min="0" max="200" value="100" class="w-full">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[10px]">تارikایی خوارەوە</label>
+                        <label class="text-[10px]">تاریکایی (Shadow)</label>
                         <input type="range" id="gradHeight" min="0" max="100" value="50" class="w-full">
                     </div>
                 </div>
-                <input type="color" id="gradColor" value="#000000" class="w-full h-8 rounded-lg bg-transparent border border-slate-700 cursor-pointer">
+                <input type="color" id="gradColor" value="#000000" class="w-full h-8 rounded-lg bg-transparent border border-slate-700 cursor-pointer mt-2">
             </div>
 
             <!-- 2. Frame -->
@@ -84,7 +93,7 @@
                     <button id="btn-none" onclick="setStyle('none')" class="btn-style bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700">بێ پشتێنە</button>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 bg-slate-950/40 p-3 rounded-2xl border border-slate-800 shadow-inner">
+                <div class="grid grid-cols-2 gap-4 bg-slate-950/40 p-3 rounded-2xl border border-slate-800">
                     <div class="space-y-1">
                         <label class="text-[10px]">تۆخی (Opacity)</label>
                         <input type="range" id="boxOpacity" min="0" max="100" value="30">
@@ -111,11 +120,10 @@
                             <option value="Almarai">Almarai</option>
                             <option value="Cairo">Cairo</option>
                             <option value="Baloo Bhaijaan 2">Baloo</option>
-                            <option value="Harmattan">Harmattan</option>
-                            <option value="Amiri">Amiri (Arabic)</option>
-                            <option value="Lateef">Lateef</option>
+                            <option value="Amiri">Amiri</option>
                             <option value="Changa">Changa</option>
                             <option value="Kufam">Kufam</option>
+                            <option value="Lemonada">Lemonada</option>
                         </select>
                     </div>
                     <div class="space-y-1">
@@ -139,7 +147,7 @@
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3">
                 <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest">٤. لۆگۆ</label>
                 <input type="file" id="logoInput" class="w-full text-[10px] text-slate-400 file:bg-slate-700 file:text-white file:border-0 file:px-4 file:py-1.5 file:rounded-full cursor-pointer">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-4 pt-2">
                     <input type="range" id="logoSize" min="20" max="500" value="120">
                     <input type="range" id="logoOpacity" min="0" max="100" value="100">
                 </div>
@@ -149,15 +157,16 @@
                 </div>
             </div>
 
-            <button onclick="downloadImage()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-5 rounded-[2rem] shadow-xl shadow-blue-900/40 active:scale-95 transition-all mb-16">
+            <button onclick="downloadImage()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 text-white font-black py-5 rounded-[2rem] shadow-xl shadow-blue-900/40 active:scale-95 transition-all mb-10">
                 داگرتنی وێنەی کۆتایی (Ultra HD)
             </button>
         </div>
 
-        <!-- Preview Area (Canvas Engine) -->
-        <div class="flex-1 flex items-start lg:items-center justify-center p-4">
+        <!-- Preview Area (Responsive Canvas) -->
+        <div class="flex-1 flex items-start lg:items-center justify-center p-4 min-h-[400px]">
             <div id="canvas-wrapper">
-                <canvas id="mainCanvas" width="1200" height="1200" style="width: 600px; height: 600px;"></canvas>
+                <!-- Internal resolution is high (1200x1200px) but CSS scales it down -->
+                <canvas id="mainCanvas" width="1200" height="1200"></canvas>
             </div>
         </div>
 
@@ -220,7 +229,7 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Draw Background Image
+            // 1. Background
             if (bgImg) {
                 ctx.save();
                 ctx.filter = `brightness(${state.brightness}%)`;
@@ -234,14 +243,14 @@
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
 
-            // 2. Draw Bottom Gradient (Automatic Shadows)
+            // 2. Bottom Gradient
             const grad = ctx.createLinearGradient(0, canvas.height, 0, canvas.height * (1 - state.gradHeight / 100));
             grad.addColorStop(0, state.gradColor);
             grad.addColorStop(1, 'transparent');
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // 3. Draw Inset Frame Line
+            // 3. Inset Frame
             if (state.frameCheck) {
                 const fw = canvas.width * (state.frameWidth / 100);
                 const fh = canvas.height * (state.frameHeight / 100);
@@ -250,7 +259,7 @@
                 ctx.strokeRect((canvas.width - fw) / 2, (canvas.height - fh) / 2, fw, fh);
             }
 
-            // 4. Draw Logo (GPU Accelerated)
+            // 4. Logo
             if (logoImg) {
                 ctx.save();
                 ctx.globalAlpha = state.logoOpacity / 100;
@@ -261,14 +270,13 @@
                 ctx.restore();
             }
 
-            // 5. Draw Text Box (Geometric Precise)
+            // 5. Box & Text
             const txt = state.textInput || "";
             const fSize = state.fontSize * 2;
             ctx.font = `${fSize}px "${state.fontSelect}"`;
             const textMetrics = ctx.measureText(txt);
             const textWidth = textMetrics.width;
 
-            // Box Dimensions
             const boxW = textWidth + (state.padX * 2);
             const boxH = fSize + (state.padY * 2);
             const bx = (canvas.width * state.textX / 100) - boxW / 2;
@@ -277,17 +285,12 @@
             if (currentStyle !== 'none') {
                 ctx.save();
                 const r = state.borderRadius * 2;
-                
-                // Draw Shadow for Box
-                ctx.shadowBlur = 40;
-                ctx.shadowColor = "rgba(0,0,0,0.4)";
-
-                // Rounded Rect Logic
                 ctx.beginPath();
                 ctx.roundRect(bx, by, boxW, boxH, r);
                 
                 if (currentStyle === 'glass') {
                     ctx.fillStyle = `rgba(255, 255, 255, ${state.boxOpacity / 100})`;
+                    ctx.shadowBlur = 40; ctx.shadowColor = "rgba(0,0,0,0.4)";
                 } else if (currentStyle === 'dark') {
                     ctx.fillStyle = `rgba(0, 0, 0, ${state.boxOpacity / 100})`;
                 } else if (currentStyle === 'solid') {
@@ -295,7 +298,6 @@
                 }
                 ctx.fill();
 
-                // Add glass border
                 if (currentStyle !== 'solid') {
                     ctx.strokeStyle = "rgba(255,255,255,0.25)";
                     ctx.lineWidth = 2;
@@ -304,37 +306,26 @@
                 ctx.restore();
             }
 
-            // 6. Draw Text - PIXEL PERFECT CENTERING
+            // Draw Text
             ctx.save();
             ctx.fillStyle = state.textColor;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            
-            // Critical Adjustment for Kurdish baseline (Standard shift)
-            // This ensures text looks visually centered regardless of export.
-            const verticalNudge = fSize * 0.04; 
-            
+            // Kurdish baseline correction logic
+            const verticalNudge = fSize * 0.05; 
             ctx.fillText(txt, canvas.width * state.textX / 100, (canvas.height * state.textY / 100) - verticalNudge);
             ctx.restore();
         }
 
         async function downloadImage() {
             const link = document.createElement('a');
-            link.download = `Zyad-AlKurd-Pro-Design.png`;
-            // Export at maximum quality
+            link.download = `Zyad-Design-${Date.now()}.png`;
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         }
 
-        // Auto-draw when fonts ready
-        document.fonts.ready.then(() => {
-            draw();
-        });
-
-        // Initial Draw
+        document.fonts.ready.then(() => draw());
         window.onload = draw;
     </script>
 </body>
 </html>
-
-```
