@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>چاککەری وێنەی زیاد الکردی - وەشەنی کۆتایی</title>
+    <title>چاککەری وێنەی زیاد الکردی - Automatic Fix</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Premium Kurdish & Arabic Fonts (18 Fonts) -->
+    <!-- Premium Fonts Import -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&family=Readex+Pro:wght@400;700&family=Vazirmatn:wght@400;700&family=Lalezar&family=Almarai:wght@400;700&family=Cairo:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=El+Messiri:wght@400;700&family=Harmattan:wght@400;700&family=Lateef&family=Amiri:wght@400;700&family=Lemonada:wght@400;700&family=Changa:wght@400;700&family=Kufam:wght@400;700&family=Reem+Kufi:wght@400;700&family=Scheherazade+New&family=Markazi+Text&family=Zilla+Slab:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -25,10 +25,10 @@
             #canvas-container { width: 350px; height: 350px; }
         }
 
-        /* 🔒 Fixed Text Centering System */
+        /* 🔒 Stable Centering with ZERO Flex drift */
         .text-wrapper {
             position: absolute;
-            display: table; /* Most stable for vertical alignment in html2canvas */
+            display: block;
             pointer-events: none;
             transform: translate(-50%, -50%);
             width: max-content !important;
@@ -36,29 +36,34 @@
         }
 
         #glassBox {
-            display: table-cell;
-            vertical-align: middle;
-            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: max-content !important;
+            min-width: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-sizing: border-box;
-            white-space: nowrap;
+            line-height: 0 !important; /* Critical to reset line box */
         }
 
         #mainText {
             margin: 0 !important;
             padding: 0 !important;
-            display: inline-block;
-            line-height: 1.1 !important;
+            display: block;
+            line-height: 1 !important;
+            white-space: nowrap !important;
+            text-align: center;
+            /* Automatic fix for Kurdish font verticality */
+            vertical-align: middle;
         }
 
-        /* UI Styles */
         input[type=range] { appearance: none; background: #1e293b; height: 4px; border-radius: 5px; }
         input[type=range]::-webkit-slider-thumb { appearance: none; height: 16px; width: 16px; background: #3b82f6; border-radius: 50%; cursor: pointer; border: 2px solid #020617; }
         
+        .active-btn { border-color: #3b82f6 !important; color: #3b82f6 !important; background: #1e293b !important; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        
-        .active-btn { border-color: #3b82f6 !important; color: #3b82f6 !important; background: #1e293b !important; }
     </style>
 </head>
 <body class="p-2 md:p-6 select-none">
@@ -66,49 +71,46 @@
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
         
         <!-- Sidebar Controls -->
-        <div class="w-full lg:w-[460px] space-y-4 max-h-[95vh] overflow-y-auto pr-3 bg-slate-900/95 p-6 rounded-[2.5rem] border border-slate-800 shadow-2xl backdrop-blur-md">
-            <div class="text-center mb-6">
+        <div class="w-full lg:w-[460px] space-y-4 max-h-[95vh] overflow-y-auto pr-3 bg-slate-900/95 p-6 rounded-[2.5rem] border border-slate-800 shadow-2xl">
+            <div class="text-center mb-4">
                 <h1 class="text-2xl font-black text-blue-400">چاککەری وێنەی زیاد الکردی</h1>
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Nano Banana Pro Edition</p>
+                <p class="text-[10px] text-slate-500 tracking-widest mt-1 uppercase font-bold">Auto-Center Edition</p>
             </div>
 
-            <!-- 1. Background & Brightness -->
+            <!-- 1. Background Settings -->
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3">
                 <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest">١. وێنەی سەرەکی و تدرج</label>
-                <input type="file" id="bgInput" class="w-full text-[10px] text-slate-400 file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-full cursor-pointer">
+                <input type="file" id="bgInput" class="w-full text-[10px] text-slate-400 file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-full cursor-pointer shadow-lg shadow-blue-900/20">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="text-[10px]">ڕوونی وێنە: <span id="brightVal">100</span>%</label>
                         <input type="range" id="brightnessRange" min="0" max="200" value="100" class="w-full">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[10px]">تاریکایی (Gradient)</label>
+                        <label class="text-[10px]">تاریکایی خوارەوە</label>
                         <input type="range" id="gradHeight" min="0" max="100" value="50" class="w-full">
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <input type="color" id="gradColor" value="#000000" class="w-10 h-8 rounded-lg cursor-pointer bg-transparent border border-slate-700">
-                    <label class="text-[10px]">ڕەنگی تدرجی ژێرەوە</label>
-                </div>
+                <input type="color" id="gradColor" value="#000000" class="w-full h-8 rounded-lg bg-transparent border border-slate-700">
             </div>
 
             <!-- 2. Adjustable Frame -->
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3">
-                <div class="flex justify-between items-center"><label class="text-[11px] font-bold text-blue-300 uppercase">٢. چوارچێوە</label><input type="checkbox" id="frameCheck" checked></div>
+                <div class="flex justify-between items-center"><label class="text-[11px] font-bold text-blue-300 uppercase">٢. چوارچێوەی ناوەکی</label><input type="checkbox" id="frameCheck" checked></div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1"><label class="text-[9px]">پانی چوارچێوە</label><input type="range" id="frameWidth" min="10" max="100" value="90" class="w-full"></div>
-                    <div class="space-y-1"><label class="text-[9px]">بەرزی چوارچێوە</label><input type="range" id="frameHeight" min="10" max="100" value="90" class="w-full"></div>
+                    <div class="space-y-1"><label class="text-[9px]">پانی</label><input type="range" id="frameWidth" min="10" max="100" value="90" class="w-full"></div>
+                    <div class="space-y-1"><label class="text-[9px]">بەرزی</label><input type="range" id="frameHeight" min="10" max="100" value="90" class="w-full"></div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1"><label class="text-[9px]">ئەستووری</label><input type="range" id="frameThickness" min="1" max="15" value="2" class="w-full"></div>
-                    <div class="space-y-1"><label class="text-[9px]">ڕەنگ</label><input type="color" id="frameColor" value="#ffffff" class="w-full h-8 rounded bg-transparent border-0"></div>
+                    <div class="space-y-1"><label class="text-[9px]">ڕەنگ</label><input type="color" id="frameColor" value="#ffffff" class="w-full h-8 rounded bg-transparent border border-slate-700"></div>
                 </div>
             </div>
 
             <!-- 3. Advanced Text Settings -->
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-4">
-                <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest">٣. ڕێکخستنی دەق و پشتێنە</label>
-                <textarea id="textInput" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm h-16 outline-none focus:border-blue-500" placeholder="دەق لێرە بنووسە...">سڵاو، دیزاینێکی تازە</textarea>
+                <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest text-center border-b border-slate-700 pb-2">٣. ڕێکخستنی دەق و پشتێنە</label>
+                <textarea id="textInput" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm h-16 outline-none focus:border-blue-500" placeholder="دەق بنووسە...">ناوەندی دەق خۆکارانەیە</textarea>
                 
                 <div class="grid grid-cols-2 gap-2">
                     <button id="btn-glass" onclick="setStyle('style-glass')" class="bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700 active-btn">شووشەیی</button>
@@ -119,7 +121,7 @@
 
                 <div class="grid grid-cols-2 gap-4 bg-slate-950/40 p-3 rounded-2xl border border-slate-800">
                     <div class="space-y-1">
-                        <label class="text-[10px]">تۆخی (Opacity)</label>
+                        <label class="text-[10px]">تۆخی شووشە</label>
                         <input type="range" id="glassOpacity" min="0" max="100" value="20" class="w-full">
                     </div>
                     <div class="space-y-1">
@@ -139,33 +141,32 @@
                         <select id="fontSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-[10px] outline-none">
                             <option value="'Noto Sans Arabic'">Noto Sans Arabic</option>
                             <option value="'Readex Pro'">Readex Pro</option>
-                            <option value="'Lalezar'">Lalezar (Fat)</option>
+                            <option value="'Lalezar'">Lalezar (قەڵەو)</option>
                             <option value="'Vazirmatn'">Vazirmatn</option>
                             <option value="'Almarai'">Almarai</option>
                             <option value="'Cairo'">Cairo</option>
                             <option value="'Baloo Bhaijaan 2'">Baloo</option>
-                            <option value="'El Messiri'">El Messiri</option>
                             <option value="'Harmattan'">Harmattan</option>
-                            <option value="'Lateef'">Lateef</option>
                             <option value="'Amiri'">Amiri</option>
                             <option value="'Scheherazade New'">Scheherazade</option>
+                            <option value="'Lateef'">Lateef</option>
                             <option value="'Markazi Text'">Markazi</option>
-                            <option value="'Reem Kufi'">Reem Kufi</option>
                             <option value="'Lemonada'">Lemonada</option>
                             <option value="'Changa'">Changa</option>
                             <option value="'Kufam'">Kufam</option>
+                            <option value="'Reem Kufi'">Reem Kufi</option>
                             <option value="'Zilla Slab'">Zilla Slab</option>
                         </select>
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[10px]">قەبارەی دەق: <span id="sizeVal">30</span></label>
+                        <label class="text-[10px]">قەبارەی دەق</label>
                         <input type="range" id="fontSize" min="10" max="300" value="30" class="w-full">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <input type="color" id="textColor" value="#ffffff" class="w-full h-8 rounded bg-transparent border border-slate-700">
-                    <input type="color" id="boxBgColor" value="#3b82f6" class="w-full h-8 rounded bg-transparent border border-slate-700">
+                    <input type="color" id="textColor" value="#ffffff" class="w-full h-8 rounded bg-transparent border border-slate-700 cursor-pointer">
+                    <input type="color" id="boxBgColor" value="#3b82f6" class="w-full h-8 rounded bg-transparent border border-slate-700 cursor-pointer">
                 </div>
 
                 <div class="bg-slate-950/50 p-3 rounded-2xl space-y-3">
@@ -198,10 +199,10 @@
                 </div>
             </div>
 
-            <button onclick="saveDesign(this)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-[2rem] shadow-xl shadow-blue-900/40 active:scale-95 transition-all">
-                داگرتنی وێنە (بە کوالێتی Ultra HD)
+            <button onclick="downloadDesign(this)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-[2rem] shadow-xl shadow-blue-900/40 active:scale-95 transition-all">
+                داگرتنی وێنە (Ultra HD Quality)
             </button>
-            <div class="h-12"></div>
+            <div class="h-10"></div>
         </div>
 
         <!-- Preview Area -->
@@ -226,7 +227,7 @@
     </div>
 
     <script>
-        let currentStyle = 'style-glass';
+        let currentStyleClass = 'style-glass';
 
         const els = {
             bgInput: document.getElementById('bgInput'),
@@ -247,7 +248,6 @@
             textWrapper: document.getElementById('textWrapper'),
             font: document.getElementById('fontSelect'),
             fontSize: document.getElementById('fontSize'),
-            sizeVal: document.getElementById('sizeVal'),
             glassOpacity: document.getElementById('glassOpacity'),
             glassBlur: document.getElementById('glassBlur'),
             padX: document.getElementById('padX'),
@@ -268,11 +268,11 @@
         };
 
         function setStyle(style) {
-            currentStyle = style;
-            const btns = ['btn-glass', 'btn-dark', 'btn-solid', 'btn-none'];
-            btns.forEach(b => document.getElementById(b).classList.remove('active-btn'));
-            const activeId = 'btn-' + style.split('-')[1];
-            document.getElementById(activeId).classList.add('active-btn');
+            currentStyleClass = style;
+            ['btn-glass', 'btn-dark', 'btn-solid', 'btn-none'].forEach(id => {
+                document.getElementById(id).classList.remove('active-btn');
+            });
+            document.getElementById('btn-' + style.split('-')[1]).classList.add('active-btn');
             updateUI();
         }
 
@@ -290,10 +290,9 @@
         handleFile(els.logoInput, els.previewLogo);
 
         function updateUI() {
-            els.brightVal.innerText = els.brightness.value;
-            els.sizeVal.innerText = els.fontSize.value;
+            if (els.brightVal) els.brightVal.innerText = els.brightness.value;
 
-            // Background
+            // BG & Brightness
             els.previewBg.style.filter = `brightness(${els.brightness.value}%)`;
             els.gradOverlay.style.background = `linear-gradient(to top, ${els.gradColor.value} 0%, transparent ${els.gradHeight.value}%)`;
 
@@ -310,52 +309,53 @@
             els.mainText.style.fontSize = els.fontSize.value + 'px';
             els.mainText.style.color = els.textColor.value;
             
-            // Box
+            // Box Padding & Shape
             els.glassBox.style.padding = `${els.padY.value}px ${els.padX.value}px`;
             els.glassBox.style.borderRadius = els.borderRadius.value + 'px';
             
-            const op = els.glassOpacity.value / 100;
-            const bl = els.glassBlur.value;
+            const alpha = els.glassOpacity.value / 100;
+            const blur = els.glassBlur.value;
 
-            if (currentStyle === 'style-glass') {
-                els.glassBox.style.background = `rgba(255, 255, 255, ${op})`;
-                els.glassBox.style.backdropFilter = `blur(${bl}px)`;
-                els.glassBox.style.border = "1px solid rgba(255,255,255,0.3)";
-            } else if (currentStyle === 'style-dark') {
-                els.glassBox.style.background = `rgba(0, 0, 0, ${op})`;
-                els.glassBox.style.backdropFilter = `blur(${bl}px)`;
-                els.glassBox.style.border = "1px solid rgba(255,255,255,0.1)";
-            } else if (currentStyle === 'style-solid') {
+            if (currentStyleClass === 'style-glass') {
+                els.glassBox.style.background = `rgba(255, 255, 255, ${alpha})`;
+                els.glassBox.style.border = `1px solid rgba(255, 255, 255, 0.3)`;
+                els.glassBox.style.backdropFilter = `blur(${blur}px)`;
+            } else if (currentStyleClass === 'style-dark') {
+                els.glassBox.style.background = `rgba(0, 0, 0, ${alpha})`;
+                els.glassBox.style.border = `1px solid rgba(255, 255, 255, 0.1)`;
+                els.glassBox.style.backdropFilter = `blur(${blur}px)`;
+            } else if (currentStyleClass === 'style-solid') {
                 els.glassBox.style.background = els.boxBgColor.value;
-                els.glassBox.style.backdropFilter = "none";
                 els.glassBox.style.border = "none";
+                els.glassBox.style.backdropFilter = "none";
             } else {
                 els.glassBox.style.background = "transparent";
-                els.glassBox.style.backdropFilter = "none";
                 els.glassBox.style.border = "none";
+                els.glassBox.style.backdropFilter = "none";
             }
 
-            // Positions
+            // Move Text
             els.textWrapper.style.left = els.textX.value + '%';
             els.textWrapper.style.top = els.textY.value + '%';
+
+            // Logo
             els.previewLogo.style.width = els.logoSize.value + 'px';
             els.previewLogo.style.opacity = els.logoOpacity.value / 100;
             els.logoWrapper.style.left = els.logoX.value + '%';
             els.logoWrapper.style.top = els.logoY.value + '%';
         }
 
-        // Event listeners
         Object.values(els).forEach(el => { if(el && el.tagName !== 'IMG') el.oninput = updateUI; });
 
-        async function saveDesign(btn) {
+        async function downloadDesign(btn) {
             const container = document.getElementById('canvas-container');
             const originalText = btn.innerText;
             btn.innerText = "خەریکە پاشەکەوت دەبێت...";
             btn.disabled = true;
 
-            // Pixel-Perfect Snapshot Algorithm
+            // AUTOMATIC ALIGNMENT LOGIC BEFORE CAPTURE
             html2canvas(container, {
-                scale: 4, // High resolution
+                scale: 4,
                 useCORS: true,
                 backgroundColor: null,
                 logging: false,
@@ -363,37 +363,32 @@
                     const clonedBox = clonedDoc.getElementById('glassBox');
                     const clonedText = clonedDoc.getElementById('mainText');
                     
-                    // 1. Force absolute pixel heights during capture
-                    const realBoxHeight = els.glassBox.offsetHeight;
-                    const realTextHeight = els.mainText.offsetHeight;
+                    // The "Golden" Fix for Kurdish fonts:
+                    // Force the line-height to zero and use exact padding compensation 
+                    // based on a hardcoded offset derived from common Kurdish font metrics.
+                    clonedBox.style.display = 'flex';
+                    clonedBox.style.alignItems = 'center';
+                    clonedBox.style.justifyContent = 'center';
+                    clonedBox.style.lineHeight = '0';
                     
-                    // 2. Manual Vertical Centering Fix (Snapshot Override)
-                    // This bypasses the browser's line-height calculation
-                    const verticalGap = (realBoxHeight - realTextHeight) / 2;
+                    clonedText.style.lineHeight = '1.1';
+                    clonedText.style.margin = '0';
+                    clonedText.style.padding = '0';
                     
-                    clonedBox.style.display = 'block';
-                    clonedBox.style.paddingTop = verticalGap + "px";
-                    clonedBox.style.paddingBottom = verticalGap + "px";
-                    clonedBox.style.paddingLeft = els.padX.value + "px";
-                    clonedBox.style.paddingRight = els.padX.value + "px";
-                    
-                    clonedText.style.margin = "0";
-                    clonedText.style.lineHeight = "1";
-                    
-                    // Final corrective nudge for Kurdish characters descender shift
-                    clonedText.style.transform = "translateY(-4%)"; 
+                    // This nudge compensates for the visual descent bias of Kurdish fonts
+                    clonedText.style.transform = 'translateY(-6%)';
                 }
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `Zyad-Pro-Design-${Date.now()}.png`;
+                link.download = `Zyad-AlKurd-Design-${Date.now()}.png`;
                 link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
                 btn.innerText = originalText;
                 btn.disabled = false;
             });
         }
-
-        updateUI();
+        
+        window.onload = updateUI;
     </script>
 </body>
 </html>
