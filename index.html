@@ -1,13 +1,13 @@
-```html
+
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>چاککەری وێنەی زیاد الکردی - Absolute Precision V10</title>
+    <title>چاککەری وێنەی زیاد الکردی - Final Engine V11</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Premium Kurdish Fonts (18 Fonts from Akokurd Style) -->
+    <!-- Premium Kurdish Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&family=Readex+Pro:wght@400;700&family=Vazirmatn:wght@400;700&family=Lalezar&family=Almarai:wght@400;700&family=Cairo:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=El+Messiri:wght@400;700&family=Harmattan:wght@400;700&family=Lateef&family=Amiri:wght@400;700&family=Lemonada:wght@400;700&family=Changa:wght@400;700&family=Kufam:wght@400;700&family=Reem+Kufi:wght@400;700&family=Zilla+Slab:wght@400;700&family=Scheherazade+New&family=Markazi+Text&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -25,7 +25,7 @@
             #canvas-container { width: 350px; height: 350px; }
         }
 
-        /* 🔒 THE LOCKED CENTERING ENGINE */
+        /* 🔒 ULTRA STABLE CENTERING */
         .text-wrapper {
             position: absolute;
             display: flex;
@@ -40,26 +40,27 @@
         }
 
         #glassBox {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative;
+            display: grid;
+            place-items: center;
             text-align: center;
             width: max-content !important;
             min-width: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-sizing: border-box;
-            line-height: 0 !important;
+            line-height: 1 !important;
         }
 
         #mainText {
             margin: 0 !important;
             padding: 0 !important;
-            display: block;
-            line-height: 1 !important; /* Zeroing the line-box */
             white-space: nowrap !important;
+            display: block;
+            line-height: 1.0 !important;
+            transform: translateY(-2px); /* Local adjust to look perfect on screen */
         }
 
-        /* UI Styles */
+        /* Styling Range Inputs */
         input[type=range] { appearance: none; background: #1e293b; height: 4px; border-radius: 5px; }
         input[type=range]::-webkit-slider-thumb { appearance: none; height: 16px; width: 16px; background: #3b82f6; border-radius: 50%; cursor: pointer; border: 2px solid #020617; }
         .active-btn { border-color: #3b82f6 !important; color: #3b82f6 !important; background: #1e293b !important; }
@@ -71,20 +72,20 @@
 
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
         
-        <!-- Sidebar Controls -->
-        <div class="w-full lg:w-[460px] space-y-4 max-h-[95vh] overflow-y-auto pr-3 bg-slate-900/95 p-6 rounded-[2.5rem] border border-slate-800 shadow-2xl backdrop-blur-md">
+        <!-- Controls Sidebar -->
+        <div class="w-full lg:w-[460px] space-y-4 max-h-[95vh] overflow-y-auto pr-3 bg-slate-900/95 p-6 rounded-[2.5rem] border border-slate-800 shadow-2xl">
             <div class="text-center mb-6">
-                <h1 class="text-2xl font-black text-blue-400 leading-tight">چاککەری وێنەی زیاد الکردی</h1>
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Nano Banana Pro V10</p>
+                <h1 class="text-2xl font-black text-blue-400">چاککەری وێنەی زیاد الکردی</h1>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Snapshot Edition V11</p>
             </div>
 
             <!-- 1. Background Settings -->
-            <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3">
+            <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3 shadow-md">
                 <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest">١. وێنەی سەرەکی و تدرج</label>
                 <input type="file" id="bgInput" class="w-full text-[10px] text-slate-400 file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-full cursor-pointer">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="text-[10px]">ڕوونی وێنە</label>
+                        <label class="text-[10px]">ڕوونی وێنە: <span id="brightVal">100</span>%</label>
                         <input type="range" id="brightnessRange" min="0" max="200" value="100" class="w-full">
                     </div>
                     <div class="space-y-1">
@@ -99,8 +100,8 @@
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3">
                 <div class="flex justify-between items-center"><label class="text-[11px] font-bold text-blue-300 uppercase">٢. چوارچێوە</label><input type="checkbox" id="frameCheck" checked></div>
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="range" id="frameWidth" min="10" max="100" value="90" title="Width">
-                    <input type="range" id="frameHeight" min="10" max="100" value="90" title="Height">
+                    <input type="range" id="frameWidth" min="10" max="100" value="90" title="پانی">
+                    <input type="range" id="frameHeight" min="10" max="100" value="90" title="بەرزی">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <input type="range" id="frameThickness" min="1" max="15" value="2" class="w-full">
@@ -109,9 +110,9 @@
             </div>
 
             <!-- 3. Advanced Text Settings -->
-            <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-4">
+            <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-4 shadow-lg shadow-black/20">
                 <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest text-center border-b border-slate-700 pb-2">٣. ڕێکخستنی دەق و پشتێنە</label>
-                <textarea id="textInput" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm h-16 outline-none focus:border-blue-500" placeholder="دەق لێرە بنووسە...">ناوەندی دەق چارەسەر کرا</textarea>
+                <textarea id="textInput" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 text-sm h-16 outline-none focus:border-blue-500" placeholder="دەق لێرە بنووسە...">ناوەندی دەق چاککرا</textarea>
                 
                 <div class="grid grid-cols-2 gap-2">
                     <button id="btn-glass" onclick="setStyle('style-glass')" class="bg-slate-800 p-2 rounded-xl text-[10px] border border-slate-700 active-btn">شووشەیی</button>
@@ -122,7 +123,7 @@
 
                 <div class="grid grid-cols-2 gap-4 bg-slate-950/40 p-3 rounded-2xl border border-slate-800">
                     <div class="space-y-1">
-                        <label class="text-[10px]">تۆخی شووشە</label>
+                        <label class="text-[10px]">تۆخی (Opacity)</label>
                         <input type="range" id="glassOpacity" min="0" max="100" value="20" class="w-full">
                     </div>
                     <div class="space-y-1">
@@ -140,24 +141,21 @@
                     <div class="space-y-1">
                         <label class="text-[10px]">١٨ فۆنتی نایاب</label>
                         <select id="fontSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-[10px] outline-none">
-                            <option value="'Noto Sans Arabic'">Noto Sans Arabic</option>
+                            <option value="'Noto Sans Arabic'">Noto Sans</option>
                             <option value="'Readex Pro'">Readex Pro</option>
-                            <option value="'Lalezar'">Lalezar (قەڵەو)</option>
+                            <option value="'Lalezar'">Lalezar</option>
                             <option value="'Vazirmatn'">Vazirmatn</option>
                             <option value="'Almarai'">Almarai</option>
                             <option value="'Cairo'">Cairo</option>
                             <option value="'Baloo Bhaijaan 2'">Baloo</option>
-                            <option value="'Harmattan'">Harmattan</option>
                             <option value="'Amiri'">Amiri</option>
-                            <option value="'Lateef'">Lateef</option>
                             <option value="'Lemonada'">Lemonada</option>
+                            <option value="'Lateef'">Lateef</option>
                             <option value="'Changa'">Changa</option>
                             <option value="'Kufam'">Kufam</option>
                             <option value="'Reem Kufi'">Reem Kufi</option>
                             <option value="'Zilla Slab'">Zilla Slab</option>
-                            <option value="'Scheherazade New'">Scheherazade</option>
                             <option value="'Markazi Text'">Markazi</option>
-                            <option value="'El Messiri'">El Messiri</option>
                         </select>
                     </div>
                     <div class="space-y-1">
@@ -173,11 +171,11 @@
 
                 <div class="bg-slate-950/50 p-3 rounded-2xl space-y-3 border border-slate-800">
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] w-4 text-slate-500 font-bold uppercase">X:</span>
+                        <span class="text-[10px] w-4 text-slate-500">X:</span>
                         <input type="range" id="textX" min="-50" max="150" value="50" class="w-full">
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] w-4 text-slate-500 font-bold uppercase">Y:</span>
+                        <span class="text-[10px] w-4 text-slate-500">Y:</span>
                         <input type="range" id="textY" min="-50" max="150" value="50" class="w-full">
                     </div>
                     <div class="space-y-1 text-center border-t border-slate-800 pt-2">
@@ -190,7 +188,7 @@
             <!-- 4. Logo Settings -->
             <div class="p-4 bg-slate-800/40 rounded-3xl border border-slate-700/50 space-y-3">
                 <label class="block text-[11px] font-bold text-blue-300 uppercase tracking-widest">٤. لۆگۆ</label>
-                <input type="file" id="logoInput" class="w-full text-[10px] text-slate-400 file:bg-slate-700 file:text-white file:border-0 file:px-4 file:py-1.5 file:rounded-full cursor-pointer">
+                <input type="file" id="logoInput" class="w-full text-[10px] text-slate-400 file:bg-slate-700 file:text-white file:border-0 file:px-4 file:py-1.5 file:rounded-full cursor-pointer shadow-md">
                 <div class="grid grid-cols-2 gap-4">
                     <input type="range" id="logoSize" min="20" max="500" value="100" class="w-full">
                     <input type="range" id="logoOpacity" min="0" max="100" value="100" class="w-full">
@@ -202,16 +200,16 @@
             </div>
 
             <button onclick="downloadDesign(this)" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-[2rem] shadow-xl shadow-blue-900/40 active:scale-95 transition-all">
-                داگرتنی وێنە (بە کوالێتی Ultra HD)
+                داگرتنی وێنە (Ultra HD Quality)
             </button>
-            <div class="h-12"></div>
+            <div class="h-10"></div>
         </div>
 
         <!-- Preview Area -->
         <div class="flex-1 flex items-start lg:items-center justify-center p-4">
             <div id="canvas-container">
                 <img id="previewBg" src="" class="absolute inset-0 w-full h-full object-cover hidden">
-                <div id="gradientOverlay" class="absolute inset-0 pointer-events-none"></div>
+                <div id="gradientOverlay" class="absolute inset-0 pointer-events-none transition-all duration-300"></div>
                 <div id="frameLine" class="absolute pointer-events-none border-2 border-white/50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
 
                 <div id="textWrapper" class="text-wrapper" style="top: 50%; left: 50%;">
@@ -221,7 +219,7 @@
                 </div>
 
                 <div id="logoWrapper" class="absolute flex justify-center items-center pointer-events-none" style="top: 85%; left: 50%; transform: translate(-50%, -50%);">
-                    <img id="previewLogo" src="" class="hidden object-contain">
+                    <img id="previewLogo" src="" class="hidden object-contain drop-shadow-2xl">
                 </div>
             </div>
         </div>
@@ -293,43 +291,39 @@
         handleFile(els.logoInput, els.previewLogo);
 
         function updateUI() {
-            if (els.sizeVal) els.sizeVal.innerText = els.fontSize.value;
             if (els.brightVal) els.brightVal.innerText = els.brightness.value;
+            if (els.sizeVal) els.sizeVal.innerText = els.fontSize.value;
 
-            // Background
             els.previewBg.style.filter = `brightness(${els.brightness.value}%)`;
             els.gradOverlay.style.background = `linear-gradient(to top, ${els.gradColor.value} 0%, transparent ${els.gradHeight.value}%)`;
 
-            // Frame
             els.frameLine.style.display = els.frameCheck.checked ? 'block' : 'none';
             els.frameLine.style.width = els.frameWidth.value + '%';
             els.frameLine.style.height = els.frameHeight.value + '%';
             els.frameLine.style.borderWidth = els.frameThickness.value + 'px';
             els.frameLine.style.borderColor = els.frameColor.value;
 
-            // Text
             els.mainText.innerText = els.textInput.value || " ";
             els.mainText.style.fontFamily = els.font.value;
             els.mainText.style.fontSize = els.fontSize.value + 'px';
             els.mainText.style.color = els.textColor.value;
             
-            // Box
             els.glassBox.style.padding = `${els.padY.value}px ${els.padX.value}px`;
             els.glassBox.style.borderRadius = els.borderRadius.value + 'px';
             
-            const op = els.glassOpacity.value / 100;
-            const bl = els.glassBlur.value;
+            const alpha = els.glassOpacity.value / 100;
+            const blur = els.glassBlur.value;
 
             if (currentStyleClass === 'style-glass') {
-                els.glassBox.style.background = `rgba(255, 255, 255, ${op})`;
+                els.glassBox.style.background = `rgba(255, 255, 255, ${alpha})`;
                 els.glassBox.style.border = `1px solid rgba(255, 255, 255, 0.4)`;
-                els.glassBox.style.backdropFilter = `blur(${bl}px)`;
-                els.glassBox.style.webkitBackdropFilter = `blur(${bl}px)`;
+                els.glassBox.style.backdropFilter = `blur(${blur}px)`;
+                els.glassBox.style.webkitBackdropFilter = `blur(${blur}px)`;
             } else if (currentStyleClass === 'style-dark') {
-                els.glassBox.style.background = `rgba(0, 0, 0, ${op})`;
+                els.glassBox.style.background = `rgba(0, 0, 0, ${alpha})`;
                 els.glassBox.style.border = `1px solid rgba(255, 255, 255, 0.1)`;
-                els.glassBox.style.backdropFilter = `blur(${bl}px)`;
-                els.glassBox.style.webkitBackdropFilter = `blur(${bl}px)`;
+                els.glassBox.style.backdropFilter = `blur(${blur}px)`;
+                els.glassBox.style.webkitBackdropFilter = `blur(${blur}px)`;
             } else if (currentStyleClass === 'style-solid') {
                 els.glassBox.style.background = els.boxBgColor.value;
                 els.glassBox.style.border = "none";
@@ -342,9 +336,9 @@
                 els.glassBox.style.webkitBackdropFilter = "none";
             }
 
-            // Positions
             els.textWrapper.style.left = els.textX.value + '%';
             els.textWrapper.style.top = els.textY.value + '%';
+
             els.previewLogo.style.width = els.logoSize.value + 'px';
             els.previewLogo.style.opacity = els.logoOpacity.value / 100;
             els.logoWrapper.style.left = els.logoX.value + '%';
@@ -359,7 +353,8 @@
             btn.innerText = "خەریکە پاشەکەوت دەبێت...";
             btn.disabled = true;
 
-            // 🎯 THE ABSOLUTE PRECISION ALGORITHM
+            // 🎯 SNAPSHOT OVERRIDE SYSTEM:
+            // This force-locks the text into geometric center regardless of baseline drift.
             html2canvas(container, {
                 scale: 4, 
                 useCORS: true,
@@ -368,35 +363,25 @@
                 onclone: (clonedDoc) => {
                     const clonedBox = clonedDoc.getElementById('glassBox');
                     const clonedText = clonedDoc.getElementById('mainText');
-                    const originalBox = document.getElementById('glassBox');
-                    const originalTextEl = document.getElementById('mainText');
                     
-                    // Force the cloned box to match the original rendered height in pixels
-                    // This bypasses the browser's recalculation of fonts during export
-                    const realHeight = originalBox.clientHeight;
-                    const realWidth = originalBox.clientWidth;
-                    const textHeight = originalTextEl.clientHeight;
+                    // Kill all CSS-based alignment that drifts in canvas
+                    clonedBox.style.display = 'grid';
+                    clonedBox.style.placeItems = 'center';
+                    clonedBox.style.lineHeight = '0';
                     
-                    clonedBox.style.height = realHeight + "px";
-                    clonedBox.style.width = realWidth + "px";
-                    clonedBox.style.display = "flex";
-                    clonedBox.style.alignItems = "center";
-                    clonedBox.style.justifyContent = "center";
-                    clonedBox.style.padding = "0"; // Use absolute centering instead of padding
+                    clonedText.style.lineHeight = '1';
+                    clonedText.style.margin = '0';
+                    clonedText.style.padding = '0';
+                    clonedText.style.display = 'block';
                     
-                    clonedText.style.lineHeight = "1";
-                    clonedText.style.display = "block";
-                    
-                    // 💡 THE KURDISH NUDGE: 
-                    // Kurdish fonts sit about 10-15% lower than their geometric center.
-                    // We pull it up by a fixed percentage of the font size to compensate.
-                    const fontSize = parseInt(window.getComputedStyle(originalTextEl).fontSize);
-                    const correction = - (fontSize * 0.12); // Move up by 12% of font size
-                    clonedText.style.transform = `translateY(${correction}px)`;
+                    // THE GOLDEN KURDISH OFFSET: 
+                    // Most Kurdish fonts sit visually lower due to their descender calculation.
+                    // We pull it back up by exactly 10% of the container height to ensure balance.
+                    clonedText.style.transform = 'translateY(-10%)';
                 }
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `Zyad-Pro-V10-${Date.now()}.png`;
+                link.download = `Zyad-Pro-V11-${Date.now()}.png`;
                 link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
                 btn.innerText = originalText;
